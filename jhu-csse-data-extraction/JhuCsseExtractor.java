@@ -1,6 +1,7 @@
 // camel-k: language=java
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.BindyType;
@@ -15,20 +16,14 @@ public class JhuCsseExtractor extends RouteBuilder {
       from("timer:jhucsse?repeatCount=1")
       .to("https:{{jhu.csse.baseUrl}}/04-06-2020.csv")
       .split().tokenize("\n", 1, true)
-      .log("message: ${body}")
       .unmarshal().bindy(BindyType.Csv, JhuCsseDailyReportCsvRecord.class)
-      .log("message: ${body}")
       .marshal().json(JsonLibrary.Jackson)
-      .log("message: ${body}")
       .to("kafka:jhucsse");
   }
 
   @XmlRootElement(name="jhu-csse-report")
-  @CsvRecord(separator = ",", quote="\"")
+  @CsvRecord(separator = ",", skipField=true, quote="\"")
   public static class JhuCsseDailyReportCsvRecord {
-
-    @DataField(pos = 1)
-    private int fips;
 
     @DataField(pos = 2)
     private String admin2;
@@ -42,34 +37,11 @@ public class JhuCsseExtractor extends RouteBuilder {
     @DataField(pos = 5)
     private String lastUpdate;
 
-    @DataField(pos = 6)
-    private String latitude;
-
-    @DataField(pos = 7)
-    private String longitude;
-
     @DataField(pos = 8)
     private int confirmedCases;
 
     @DataField(pos = 9)
     private int deaths;
-
-    @DataField(pos = 10)
-    private int recovered;
-
-    @DataField(pos = 11)
-    private int active;
-
-    @DataField(pos = 12)
-    private String combinedKey;
-
-    public int getFips() {
-      return fips;
-    }
-
-    public void setFips(int fips) {
-      this.fips = fips;
-    }
 
     public String getAdmin2() {
       return admin2;
@@ -87,6 +59,7 @@ public class JhuCsseExtractor extends RouteBuilder {
       this.provinceState = provinceState;
     }
 
+    @XmlElement(name = "country")
     public String getCountryRegion() {
       return countryRegion;
     }
@@ -101,22 +74,6 @@ public class JhuCsseExtractor extends RouteBuilder {
 
     public void setLastUpdate(String lastUpdate) {
       this.lastUpdate = lastUpdate;
-    }
-
-    public String getLatitude() {
-      return latitude;
-    }
-
-    public void setLatitute(String latitude) {
-      this.latitude = latitude;
-    }
-
-    public String getLongitude() {
-      return longitude;
-    }
-
-    public void setLongitute(String longitude) {
-      this.longitude = longitude;
     }
 
     public int getConfirmedCases() {
@@ -135,28 +92,5 @@ public class JhuCsseExtractor extends RouteBuilder {
       this.deaths = deaths;
     }
 
-    public int getRecovered() {
-      return recovered;
-    }
-
-    public void setRecovered(int recovered) {
-      this.recovered = recovered;
-    }
-
-    public int getActive() {
-      return active;
-    }
-
-    public void setActive( int active) {
-      this.active = active;
-    }
-
-    public String getCombinedKey() {
-      return combinedKey;
-    }
-
-    public void setCombinedKey(String combinedKey) {
-      this.combinedKey = combinedKey;
-    }
   }
 }
