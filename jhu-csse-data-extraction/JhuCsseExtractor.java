@@ -1,6 +1,10 @@
 // camel-k: language=java
 
 import javax.xml.bind.annotation.XmlRootElement;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.xml.bind.annotation.XmlElement;
 
 import org.apache.camel.builder.RouteBuilder;
@@ -13,12 +17,19 @@ public class JhuCsseExtractor extends RouteBuilder {
   @Override
   public void configure() throws Exception {
 
-      from("timer:jhucsse?repeatCount=1")
-      .to("https:{{jhu.csse.baseUrl}}/04-06-2020.csv")
-      .split().tokenize("\n", 1, true)
-      .unmarshal().bindy(BindyType.Csv, JhuCsseDailyReportCsvRecord.class)
-      .marshal().json(JsonLibrary.Jackson)
-      .to("kafka:jhucsse");
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yyyy");  
+    LocalDateTime now = LocalDateTime.now();
+    
+    String today = dtf.format(now);  
+
+    today = "04-05-2020";
+
+    from("timer:jhucsse?repeatCount=1")
+    .toF("https:{{jhu.csse.baseUrl}}/%s.csv", today)
+    .split().tokenize("\n", 1, true)
+    .unmarshal().bindy(BindyType.Csv, JhuCsseDailyReportCsvRecord.class)
+    .marshal().json(JsonLibrary.Jackson)
+    .to("kafka:jhucsse");
   }
 
   @XmlRootElement(name="jhu-csse-report")
