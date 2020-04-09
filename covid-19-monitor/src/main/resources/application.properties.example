@@ -3,7 +3,7 @@
 # The name of the application.
 # If not set, defaults to the name of the project (except for tests where it is not set at all).
 #
-quarkus.application.name=covid-19-monitor
+#quarkus.application.name=
 
 #
 # The version of the application.
@@ -61,7 +61,7 @@ quarkus.application.name=covid-19-monitor
 #
 # Whether or not the banner will be displayed
 #
-quarkus.banner.enabled=true
+#quarkus.banner.enabled=true
 
 #
 # The path of the banner (path relative to root of classpath)
@@ -201,7 +201,7 @@ quarkus.banner.enabled=true
 #
 # Whether or not a image build will be performed.
 #
-quarkus.container-image.build=true
+#quarkus.container-image.build=false
 
 #
 # The group the container image will be part of
@@ -3876,7 +3876,7 @@ quarkus.container-image.build=true
 #
 # The base image to be used when a container image is being produced for the jar build
 #
-quarkus.s2i.base-jvm-image=fabric8/s2i-java:latest-java11
+#quarkus.s2i.base-jvm-image=fabric8/s2i-java:2.3
 
 #
 # The base image to be used when a container image is being produced for the native binary build

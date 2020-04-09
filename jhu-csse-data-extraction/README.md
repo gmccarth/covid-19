@@ -16,5 +16,4 @@ oc create cm jhu-csse --from-file=application.properties
 
 ### Run Camel-K integration
 
-kamel run -d camel-bindy -d camel-jaxb JhuCsseExtractor.java --configmap=jhu-csse
-
+kamel run -d camel-bindy -d camel-jaxb -d camel-jackson JhuCsseExtractor.java --configmap=jhu-csse
