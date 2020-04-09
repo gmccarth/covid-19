@@ -8,6 +8,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import org.jboss.resteasy.annotations.jaxrs.PathParam;
+
 
 @Path("/api/countries")
 @Produces(MediaType.APPLICATION_JSON)
@@ -20,6 +22,13 @@ public class CountryResource {
     public List<Country> list() {
         return countryService.list();
     }
+
+    @GET
+    @Path("/{provinceState}")
+    public List<Country> provinceState(@PathParam String provinceState) {
+        return countryService.getByProvinceState(provinceState);
+    }
+
 
     @POST
     public List<Country> add(Country country) {

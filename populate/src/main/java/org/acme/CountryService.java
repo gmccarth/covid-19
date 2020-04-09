@@ -5,9 +5,12 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.result.DeleteResult;
+
 import org.bson.Document;
 
 @ApplicationScoped
@@ -28,8 +31,36 @@ public class CountryService {
                 country.setCountryId(document.getString("countryId"));
                 country.setCountryRegion(document.getString("countryRegion"));
                 country.setLastUpdate(document.getString("lastUpdate"));
-                country.setConfirmedCases(document.getString("confirmedCases"));
-                country.setDeaths(document.getString("deaths"));
+                country.setConfirmedCases(document.getInteger("confirmedCases"));
+                country.setDeaths(document.getInteger("deaths"));
+                country.setProvinceState(document.getString("provinceState"));
+                list.add(country);
+            }
+        } finally {
+            cursor.close();
+        }
+        return list;
+    }
+
+    private MongoCollection<Document> getCollection(){
+        return mongoClient.getDatabase("country").getCollection("country");
+    }
+
+    public List<Country> getByProvinceState(String provinceState){
+        List<Country> list = new ArrayList<>();
+        MongoCollection<Document> collection = mongoClient.getDatabase("country").getCollection("country");
+        BasicDBObject whereQuery = new BasicDBObject();
+        whereQuery.put("provinceState", provinceState);
+        MongoCursor<Document> cursor = collection.find(whereQuery).iterator();
+        try {
+            while (cursor.hasNext()) {
+                Document document = cursor.next();
+                Country country = new Country();
+                country.setCountryId(document.getString("countryId"));
+                country.setCountryRegion(document.getString("countryRegion"));
+                country.setLastUpdate(document.getString("lastUpdate"));
+                country.setConfirmedCases(document.getInteger("confirmedCases"));
+                country.setDeaths(document.getInteger("deaths"));
                 country.setProvinceState(document.getString("provinceState"));
                 list.add(country);
             }
@@ -51,8 +82,12 @@ public class CountryService {
         getCollection().insertOne(document);
     }
 
-    private MongoCollection<Document> getCollection(){
-        return mongoClient.getDatabase("country").getCollection("country");
+    public void delete(){
+        MongoCollection<Document> assassinColl = mongoClient.getDatabase("country").getCollection("country");
+        BasicDBObject theQuery = new BasicDBObject();
+        theQuery.put("countryId", "1");
+        DeleteResult result = assassinColl.deleteMany(theQuery);
+        System.out.println("The Numbers of Deleted Document(s) : " + result.getDeletedCount());
     }
 
 }
