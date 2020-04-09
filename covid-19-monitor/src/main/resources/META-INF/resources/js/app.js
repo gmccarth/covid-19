@@ -1,5 +1,5 @@
 $('#country').change(function(){
-    sendRequest("/usa/historical/"+$(this).val(),"","GET");
+    sendRequest("/usa/historical/"+$(this).val(),"GET");
 })
 
 function sendRequest(url, method) {
@@ -10,19 +10,22 @@ function sendRequest(url, method) {
     success: function(response) {
       console.log("Successful");
 //      let results = response.split(", ").map(Number);
+      console.log(response);
+      var jsonObj = JSON.parse(response);
       
-      loadChart(response, $('#country').val);
+      loadChart(jsonObj.dataPoints, document.getElementById("country").value);
     },
 //    error: function(response) {
 //      console.log("Error");
 
 //    },
     error: function(xhr, textStatus, errorThrown){
+    	console.log("error");
     	console.log(xhr.responseText);
     },
     type: method,
     headers: {
-      Accept: 'application/json;charset=utf-8',
+ //     Accept: 'application/json;charset=utf-8',
       'Content-Type': 'text/plain'
     },
     dataType: 'text'
@@ -40,7 +43,7 @@ var chart = "";
 function loadChart(dp, state) {
 	var chart = new CanvasJS.Chart("chartContainer", {
 		title:{
-			text: "COVID-19 confirmed cases over time for " + state              
+			text: "COVID-19 confirmed cases over time for " + state.toUpperCase()              
 		},
 		data: [              
 		{
@@ -57,8 +60,6 @@ function loadChart(dp, state) {
 // display chart with updated
 // drawing from canvas
 //----------------------------
-function displayChart(data) {
-	
-}
+
 
 

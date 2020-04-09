@@ -35,7 +35,7 @@ public class CovidService {
         
         JSONObject json = getStateJsonObject(state, "historical");    
 		
-		return "Confirmed cases for " + state.toUpperCase() + " : \n" + json.toString() ;
+		return  json.toString() ;
 
 	}
 		
