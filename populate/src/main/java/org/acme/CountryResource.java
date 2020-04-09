@@ -24,11 +24,16 @@ public class CountryResource {
     }
 
     @GET
-    @Path("/{provinceState}")
-    public List<Country> provinceState(@PathParam String provinceState) {
-        return countryService.getByProvinceState(provinceState);
+    @Path("/{country}")
+    public List<Country> countryRegion(@PathParam String country) {
+        return countryService.getByCountry(country);
     }
 
+    @GET
+    @Path("/{country}/{provinceState}")
+    public List<Country> provinceState(@PathParam String country, @PathParam String provinceState) {
+        return countryService.getByCountryAndProvinceState(country, provinceState);
+    }
 
     @POST
     public List<Country> add(Country country) {

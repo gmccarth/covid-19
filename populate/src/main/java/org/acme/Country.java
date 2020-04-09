@@ -2,21 +2,25 @@ package org.acme;
 
 public class Country {
 
-    private String countryId;
-    private String countryRegion;
+	private String countryId;
+	private String admin2;
+    private String country;
     private String lastUpdate;
     private Integer confirmedCases;
     private Integer deaths;
     private String provinceState;
 
-	public String getCountryRegion() {
-		return countryRegion;
-	}
 	public String getCountryId() {
 		return countryId;
 	}
 	public void setCountryId(String countryId) {
 		this.countryId = countryId;
+	}
+	public String getAdmin2() {
+		return admin2;
+	}
+	public void setAdmin2(String admin2) {
+		this.admin2 = admin2;
 	}
 	public String getProvinceState() {
 		return provinceState;
@@ -42,8 +46,11 @@ public class Country {
 	public void setLastUpdate(String lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
-	public void setCountryRegion(String countryRegion) {
-		this.countryRegion = countryRegion;
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 }
