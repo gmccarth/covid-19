@@ -5,8 +5,8 @@ public class Country {
     private String countryId;
     private String countryRegion;
     private String lastUpdate;
-    private String confirmedCases;
-    private String deaths;
+    private Integer confirmedCases;
+    private Integer deaths;
     private String provinceState;
 
 	public String getCountryRegion() {
@@ -24,16 +24,16 @@ public class Country {
 	public void setProvinceState(String provinceState) {
 		this.provinceState = provinceState;
 	}
-	public String getDeaths() {
+	public Integer getDeaths() {
 		return deaths;
 	}
-	public void setDeaths(String deaths) {
+	public void setDeaths(Integer deaths) {
 		this.deaths = deaths;
 	}
-	public String getConfirmedCases() {
+	public Integer getConfirmedCases() {
 		return confirmedCases;
 	}
-	public void setConfirmedCases(String confirmedCases) {
+	public void setConfirmedCases(Integer confirmedCases) {
 		this.confirmedCases = confirmedCases;
 	}
 	public String getLastUpdate() {
