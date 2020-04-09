@@ -1,16 +1,17 @@
-sendRequest("/usa/history/"+state, "get");
+$('#country').change(function(){
+    sendRequest("/usa/historical/"+$(this).val(),"","GET");
+})
 
-function sendRequest(url, input, method) {
+function sendRequest(url, method) {
   $.ajax({
     url: url,
     async: false,
-    data: input,
+    
     success: function(response) {
       console.log("Successful");
-      console.log(response);
 //      let results = response.split(", ").map(Number);
       
-      displayChart(response);
+      loadChart(response, $('#country').val);
     },
 //    error: function(response) {
 //      console.log("Error");
@@ -22,7 +23,7 @@ function sendRequest(url, input, method) {
     type: method,
     headers: {
       Accept: 'application/json;charset=utf-8',
-      'Content-Type': 'application/json'
+      'Content-Type': 'text/plain'
     },
     dataType: 'text'
   });
