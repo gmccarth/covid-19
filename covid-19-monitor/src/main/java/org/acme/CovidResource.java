@@ -26,8 +26,8 @@ public class CovidResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/country/{country}")
-    public int getCountry(@PathParam String country) {
-    	return repo.findByCountry(country).getConfirmed();
+    public DailyReport getCountry(@PathParam String country) {
+    	return repo.findByCountry(country);
     }
     
     @GET
