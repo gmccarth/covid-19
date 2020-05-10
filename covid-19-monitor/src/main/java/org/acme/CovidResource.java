@@ -11,8 +11,8 @@ import org.jboss.resteasy.annotations.jaxrs.PathParam;
 @Path("/reports")
 public class CovidResource {
 
-	@Inject
-	CovidService service;
+//	@Inject
+//	CovidService service;
 	
 	@Inject
 	ReportRepository repo;
@@ -26,8 +26,8 @@ public class CovidResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/country/{country}")
-    public DailyReport getCountry(@PathParam String country) {
-    	return repo.findByCountry(country);
+    public int getCountry(@PathParam String country) {
+    	return repo.findByCountry(country).getConfirmed();
     }
     
     @GET
