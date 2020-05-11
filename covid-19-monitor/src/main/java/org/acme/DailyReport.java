@@ -12,7 +12,7 @@ public class DailyReport extends PanacheMongoEntity{
 	public ObjectId id;
 	public String country;
 	
-	public LocalDate reportDate;
+	public Long reportDate;
 	
 	public String provinceState;
 	public String admin2;
