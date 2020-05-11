@@ -16,5 +16,6 @@ public class ReportRepository implements PanacheMongoRepository<DailyReport> {
 	public List<DailyReport> findAllReportsForCountry(String country){
 		return list("country", country);
 	}
+	
 
 }
