@@ -28,11 +28,11 @@ public class CovidResource {
 //        return service.daily(state);
 //    }
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/country/{country}")
-    public DailyReport getAll(@PathParam String country) {
+    public List<DailyReport> getAll(@PathParam String country) {
     	System.out.println("got " + country);
-    	return repo.findByCountry(country);
+    	return repo.findAllReportsForCountry(country);
     }
     
     @GET
